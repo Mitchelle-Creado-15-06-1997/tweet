@@ -27,8 +27,9 @@ CREATE TABLE `tweets` (
   `post_text` varchar(45) DEFAULT NULL,
   `hashtag` varchar(45) DEFAULT NULL,
   `media` varchar(45) DEFAULT NULL,
-  `time` datetime DEFAULT NULL,
   `userhandle` varchar(45) DEFAULT NULL,
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`tweet_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-30 10:50:04
+-- Dump completed on 2019-07-31 14:16:05

@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var connection= require('./connect.js');
 var session = require('express-session');
 var path = require('path');
+var bcrypt = require('bcrypt');
 
 "use strict"
 
@@ -44,18 +45,40 @@ class finmin{
             var password = request.body.password;
             var Name = request.body.Name;
             var email = request.body.email;
+            var password_hash = request.body.password_hash;
         const courses={
             user_handle,
             password,
             Name,
-            email
+            email,
+            password_hash
             
         
         };
-            connection.query(`INSERT INTO user set?`,[courses])
-            response.sendFile(path.join(__dirname + '/views/login.html'));
+
+
+
+            // connection.query(`INSERT INTO user set?`,[courses])
+
+
+bcrypt.hash(courses.password_hash, 10 , function(err,hash){
+    if(err) console.log(err);
+    courses.password_hash = hash;
+    connection.query(`INSERT INTO user set?`,[courses])
+    response.sendFile(path.join(__dirname + '/views/login.html'));
+
+    console.log(courses.password_hash);
+
+});
+
+
+
+
+
+
+            // response.sendFile(path.join(__dirname + '/views/login.html'));
         
-            console.log(user_handle);
+            // console.log(user_handle);
             
 
         }
