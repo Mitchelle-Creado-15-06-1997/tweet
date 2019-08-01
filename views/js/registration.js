@@ -8,7 +8,7 @@ window.onload = function(){
 	let date = form.birthday;
 	let email = form.email;
 	let password = form.password;
-	let confirmPassword = form.confirmPassword;
+	let confirmPassword = form.password_hash;
 
 	
 	form.addEventListener("submit", formValidation);
@@ -28,8 +28,20 @@ window.onload = function(){
 				event.preventDefault(); 
 			}
 		else
+			info.innerHTML = "";
+		if(!wrongFields)
+		{
+		if(form.password.value != form.password_hash.value)
+		{
+			info.innerHTML = "Passwords is not same";
+			event.preventDefault(); 
+		}
+		else{
 			alert("thanks");
-		
+		}
+	}
+		else					 
+			event.preventDefault();
 				
 	}
 	for(let i=0; i<form.length; i++){
