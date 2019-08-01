@@ -22,7 +22,7 @@ window.onload = function(){
 			else
 				form[i].classList.remove("not-valid"); 				
 		}
-		if(form.password.value != form.confirmPassword.value)
+		if(form.password.value != form.password_hash.value)
 			{
 				info.innerHTML = "Passwords is not same";
 				event.preventDefault(); 

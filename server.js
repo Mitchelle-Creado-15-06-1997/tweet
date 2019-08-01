@@ -18,6 +18,7 @@ app.use('/assets', express.static(__dirname + '/views/assets'));
 app.use('/js', express.static(__dirname + '/views/js'));
 app.use('/home', express.static(__dirname + '/views/index.html'));
 app.use('/images', express.static(__dirname + '/views/images'));
+// app.use('/ajaxcall', express.static(__dirname + '/views/login.html'));
 
 app.use('/css', express.static(__dirname + '/views/css'));
 app.use(bodyParser.urlencoded({extended : true}));
@@ -33,14 +34,16 @@ app.get('/', vlass.getindex);
 // });
 app.get('/registration.html', vlass.getregistration);
 
-
+app.post('/ajaxcall',vlass.ajaxcall);
 app.post('/auth', vlass.postauth);
+app.post('/for_pass',vlass.for_password)
 
 
 
 app.post('/auth2',vlass.postauth2);
 
 app.get('/home', vlass.gethome);
+app.get('/forgot_pass.html',vlass.forgot_pass)
 
 const port = process.env.PORT || 3000;
 app.listen(port,()=>console.log(`listening on port ${port}`));

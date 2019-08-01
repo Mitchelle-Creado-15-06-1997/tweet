@@ -4,7 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <script
+  src="https://code.jquery.com/jquery-1.12.4.js"
+  integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+  crossorigin="anonymous"></script>
+    <title>Login</title>
 </head>
 <link rel="stylesheet" type="text/css" href="/css/registration.css">
 <body>
@@ -12,7 +16,7 @@
         <h1>Twitter</h1>
         
     </div>
-    <form action="auth" method="post" name="main_form">
+    <form  id="loginform"  name="main_form">
         <h4>Login</h4>
             
                  <div><label for="Userhandle">User Handle</label></div>
@@ -21,16 +25,44 @@
                 <div><label for="userPass">Password</label></div>
         <input name="password" id="userPass" type="password" required="" placeholder="Enter password"  >
                 
-        <div><label for="forgot_password" style="font-size:0.7em;">Forgot Password ? </label></div>
-       <br> <input   class="button" type="submit" value="Login" name="submit">
+        <div><a href="/forgot_pass.html"><label for="forgot_password" style="font-size:0.7em;">Forgot Password ? </label></a></div>
+       <br> <!--<input   class="button" type="submit" value="Login" name="submit" onclick="get()" id="getButton">-->
        
        
        
       </form>	
+      <button  type="submit" id="getButton" class="button" onclick="get()">SUBMIT</button>
+      <p id="getResponse"> </p>
       <div class="signup">
       <p> <a href="registration.html">Don't Have an acccount ? </a></p><br>
      
     </div>
       <!-- <script type="text/javascript" src="js/registration.js"></script>-->
+      <script>
+      function get(){
+          var formdata={
+              user_handle : $("#Userhandle").val(),
+              password:$("#userPass").val()
+          }
+          
+          console.log(formdata.user_handle);
+          $.ajax({
+              type:"POST",
+              
+              url:window.location +"ajaxcall",
+              data : formdata,
+              datatype:'json'
+
+          })
+          .done(function(data){
+              console.log('GET response',JSON.stringify(data,"",2));
+              $('#getResponse').html(JSON.stringify(data,"",2));
+            
+          })
+          .fail(function(jqxhr,textStatus,err){
+              console.log('Ajax error',textStatus);
+          });
+      }
+    </script>
     </body>
 </html>

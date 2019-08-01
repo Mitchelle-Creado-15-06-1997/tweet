@@ -8,6 +8,8 @@ var connection= require('./connect.js');
 var session = require('express-session');
 var path = require('path');
 var bcrypt = require('bcrypt');
+app.use(bodyParser.json());
+
 
 "use strict"
 
@@ -99,9 +101,56 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
             }
             response.end();
         }
-    
 
+        forgot_pass(request,response)
+        {
+             response.sendFile(path.join(__dirname + '/views/forgot_pass.html'));
+        }
+
+        for_password(request,response)
+        {
+            var email = request.body.email;
+           console.log(JSON.stringify(email));
+            connection.query('select user_id from user where email= ? ',[request.body.email], function (err,data){
+               if(err)
+               console.log(err);
+               else{
+                   response.send(JSON.stringify(data));
+                   console.log(data);
+                   
+               }
+            });
+        }
+    
+  ajaxcall(request,response){
+      
+      var user_handle = request.body.user_handle;
+      
+      var password = request.body.password;
+      console.log(user_handle);
+      if (user_handle && password) {
+          console.log("hi");
+        connection.query('SELECT * FROM user WHERE user_handle = ? AND password = ?', [user_handle, password], function(error, data, fields) {
+            if (data.length > 0) {
+                request.session.loggedin = true;
+                request.session.user_handle = user_handle;
+                response.send(data);
+               
+                //response.redirect('/home');
+            } else {
+                response.send('Incorrect Username and/or Password!');
+            }			
+            response.end();
+        });
+    } else {
+        console.log("hi2");
+
+        response.send('Please enter Username and Password!');
+        response.end();
+    }
+
+  }
 
 }
 
-module.exports = finmin
+module.exports = finmin;
