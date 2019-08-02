@@ -1,0 +1,65 @@
+const express=require('express');
+const app = express();
+const Joi = require('joi');
+var mysql= require('mysql');
+var bodyParser = require('body-parser');
+//var routes = require('./route.js');
+var connection= require('../connect.js');
+var session = require('express-session');
+var path = require('path');
+var appfunc = require('../controllers/login_registration.js');
+var edit_profile = require('../controllers/edit_profile.js');
+
+app.use(express.json());
+app.use(session({
+	secret: 'secret',
+	resave: true,
+	saveUninitialized: true
+}));
+app.use('/home/assets', express.static(__dirname + '/../views/assets'));
+app.use('/home/images', express.static(__dirname + '/../views/images'));
+
+app.use('/assets', express.static(__dirname + '/../views/assets'));
+app.use('/js', express.static(__dirname + '/../views/js'));
+app.use('/home', express.static(__dirname + '/../views/index.html'));
+//app.use('/home/:name', express.static(__dirname + '/../views/index.html'));
+
+app.use('/images', express.static(__dirname + '/../views/images'));
+// app.use('/ajaxcall', express.static(__dirname + '/views/login.html'));
+
+app.use('/css', express.static(__dirname + '/../views/css'));
+app.use(bodyParser.urlencoded({extended : true}));
+app.use(bodyParser.json());
+"use strict"
+var vlass = new appfunc();
+var edit_profile = new edit_profile();
+app.get('/', vlass.getindex);
+	
+     //response.render('./index.html');
+// app.get('/home', function(request, response) {
+// 	response.sendFile(path.join(__dirname + '/views/index.html'));
+//      //response.render('./index.html');
+// });
+app.get('/registration.html', vlass.getregistration);
+app.post('/ajaxcallindex',vlass.ajaxcallindex);
+
+app.post('/ajaxLogin',vlass.ajaxLogin);
+app.post('/auth', vlass.postauth);
+app.post('/for_pass',vlass.for_password)
+
+
+
+app.post('/auth2',vlass.postauth2);
+
+//app.get('/home/:name', vlass.gethome);
+app.get('/home', vlass.gethome);
+
+app.get('/forgot_pass.html',vlass.forgot_pass)
+
+//app.post('/home/:name/tweets', vlass.tweets);
+app.post('/home/tweets', vlass.tweets);
+app.post('/home/edit_profile', edit_profile.edit_profile);
+
+const port = process.env.PORT || 3000;
+app.listen(port,()=>console.log(`listening on port ${port}`));
+module.exports = app;

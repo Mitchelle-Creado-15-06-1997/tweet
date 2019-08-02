@@ -10,7 +10,7 @@
   crossorigin="anonymous"></script>
     <title>Login</title>
 </head>
-<link rel="stylesheet" type="text/css" href="/css/registration.css">
+<link rel="stylesheet" type="text/css" href="/css/login.css">
 <body>
     <div class="header">
         <h1>Twitter</h1>
@@ -25,44 +25,21 @@
                 <div><label for="userPass">Password</label></div>
         <input name="password" id="userPass" type="password" required="" placeholder="Enter password"  >
                 
-        <div><a href="/forgot_pass.html"><label for="forgot_password" style="font-size:0.7em;">Forgot Password ? </label></a></div>
+        <div><a href="/forgot_password.html"><label for="forgot_password" style="font-size:0.7em;">Forgot Password ? </label></a></div>
        <br> <!--<input   class="button" type="submit" value="Login" name="submit" onclick="get()" id="getButton">-->
        
        
        
       </form>	
-      <button  type="submit" id="getButton" class="button" onclick="get()">SUBMIT</button>
+    <center> <button  type="submit" id="getButton" class="button" onclick="get()">SUBMIT</button></center> 
       <p id="getResponse"> </p>
       <div class="signup">
       <p> <a href="registration.html">Don't Have an acccount ? </a></p><br>
      
     </div>
       <!-- <script type="text/javascript" src="js/registration.js"></script>-->
-      <script>
-      function get(){
-          var formdata={
-              user_handle : $("#Userhandle").val(),
-              password:$("#userPass").val()
-          }
-          
-          console.log(formdata.user_handle);
-          $.ajax({
-              type:"POST",
-              
-              url:window.location +"ajaxcall",
-              data : formdata,
-              datatype:'json'
-
-          })
-          .done(function(data){
-              console.log('GET response',JSON.stringify(data,"",2));
-              $('#getResponse').html(JSON.stringify(data,"",2));
-            
-          })
-          .fail(function(jqxhr,textStatus,err){
-              console.log('Ajax error',textStatus);
-          });
-      }
+      <script src="js/login_ajaxcall.js">
+      
     </script>
     </body>
 </html>
