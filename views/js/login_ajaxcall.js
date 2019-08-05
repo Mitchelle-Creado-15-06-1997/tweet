@@ -248,6 +248,17 @@ what();
 
 
 var imgname;
+function getHashTags(inputText) {  
+    var regex = /(?:^|\s)(?:#)([a-zA-Z\d]+)/gm;
+    var matches = [];
+    var match;
+
+    while ((match = regex.exec(inputText))) {
+        matches.push(match[1]);
+    }
+     var hash= matches.toString();
+    return hash;
+}
 function post_tweet(){
     var path = "home/tweet_image/";
    //var image = file.name;
@@ -265,10 +276,11 @@ var image = document.getElementById('media').name;
         //$(".media").click();
         
      
-      
+  var hash = getHashTags($("#post_text").val() );
    var post_data={
 
        post_text : $("#post_text").val(),
+       hashtag:hash,
       // media : path+imgname,
 
       // hashtag:$("#hashtag").val(),
@@ -309,6 +321,74 @@ var image = document.getElementById('media').name;
      $("#post_text").val("");
   }
 
+
+  function searchglobal()
+
+  {  var searchname = $("#searchname").val();
+     
+      var n = searchname.startsWith("#");
+      if(n==true)
+      {
+          search_hashtag();
+      }
+      else {
+      var send_search={
+          searchname
+       
+    } 
+    $.ajax({
+        type:"POST",
+        
+        url:window.location +"/searchglobal",
+        data : send_search,
+        datatype:'json'
+
+    })
+    .done(function(data){
+       
+        
+         // $('#result').html("invalid user_handle and password");
+        //console.log(data);
+        //reset_tweet();
+        $('#dispsearch').html(JSON.stringify(data));
+    })
+    .fail(function(jqxhr,textStatus,err){
+        console.log('Ajax error',textStatus);
+    });
+
+      }
+
+  }
+
+  function search_hashtag(){
+    console.log("search hashtag");
+    var searchname = $("#searchname").val();
+    var send_search={
+        searchname
+     
+  } 
+  $.ajax({
+      type:"POST",
+      
+      url:window.location +"/searchhashtag",
+      data : send_search,
+      datatype:'json'
+
+  })
+  .done(function(data){
+     
+      
+       // $('#result').html("invalid user_handle and password");
+      //console.log(data);
+      //reset_tweet();
+      $('#dispsearch').html(JSON.stringify(data));
+  })
+  .fail(function(jqxhr,textStatus,err){
+      console.log('Ajax error',textStatus);
+  });
+     
+     
+  }
   
 
 

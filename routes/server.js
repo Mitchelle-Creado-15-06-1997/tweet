@@ -69,6 +69,7 @@ app.post('/home/displaytweets', vlass.displaytweets);
 app.post('/home/retweet', vlass.retweet);
 app.post('/home/searchglobal', vlass.searchglobal);
 
+app.post('/home/searchhashtag', vlass.search_hashtag);
 
 
 const port = process.env.PORT || 3000;

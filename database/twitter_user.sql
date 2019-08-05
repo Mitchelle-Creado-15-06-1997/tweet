@@ -34,7 +34,7 @@ CREATE TABLE `user` (
   `created_at` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`),
   UNIQUE KEY `user_handle_UNIQUE` (`user_handle`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -43,7 +43,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'rhea','rhea@test.com','rhea',NULL,'rhea',NULL,'2019-07-31 10:45:28','2019-07-31 10:50:02'),(3,' abcd','test@test.com','abcdefg',NULL,'abc',NULL,'2019-07-31 10:51:20','2019-07-31 10:50:02'),(4,'qwerty','test@test.com','qwerty','$2b$10$CGP/g048rPdMuXJI4axbF.x7PzOOcYvB2TfyTEq8fBclhVpuPdNKm','qwerty',NULL,'2019-07-31 11:48:08','2019-07-31 11:48:08'),(5,'zxcvbn','zxcvb@test.com','zxcvbn','$2b$10$IhmPBM7BEpi82ALx98kFSuhieybFLQqobhSFlO/fRn4wHEM2p4gbi','zxcvbn',NULL,'2019-07-31 12:18:26','2019-07-31 12:18:26');
+INSERT INTO `user` VALUES (1,'rhea','rhea@test.com','rhea',NULL,'rhea','home/profile_image/logo.jpg','2019-08-05 14:34:30','2019-07-31 10:50:02'),(3,' abcd','test@test.com','abcdefg',NULL,'abc',NULL,'2019-07-31 10:51:20','2019-07-31 10:50:02'),(4,'qwerty','test@test.com','qwerty','$2b$10$CGP/g048rPdMuXJI4axbF.x7PzOOcYvB2TfyTEq8fBclhVpuPdNKm','qwerty',NULL,'2019-07-31 11:48:08','2019-07-31 11:48:08'),(5,'zxcvbn','zxcvb@test.com','zxcvbn','$2b$10$IhmPBM7BEpi82ALx98kFSuhieybFLQqobhSFlO/fRn4wHEM2p4gbi','zxcvbn',NULL,'2019-07-31 12:18:26','2019-07-31 12:18:26'),(6,'rhea','test@test.com','rhearay','$2b$10$Oxyyl.QycxRdAX93wyYYUufz60kON8cQW.c7oXx1qCpIYbs2wm/.2','rhearay',NULL,'2019-07-31 14:23:42','2019-07-31 14:23:42'),(7,'poiuyt','test@test.com','poiuyt','$2b$10$UD1m7p5flvQHFW4WmX4ce.onD8ofBo7yBPAnJCLIoYmFB.uzKN99G','poiuyt','home/profile_image/pic01.jpg','2019-08-05 11:38:54','2019-07-31 15:14:06'),(8,'poiuyt','test@test.com','poiuyt','$2b$10$qBNvBSH6hMMW7Vzp8pJcO.exFzf9ckDCY72qTI82HQL/VCoLh7UUK','poiuytqwer',NULL,'2019-07-31 15:27:48','2019-07-31 15:27:48'),(9,'abcpoiuy','test@test.com','abcpoiuy','$2b$10$mGoKCFE7VbuG6fj9CliP0e8e3IZKyfiko9LvVukl0VX49vCZVwmXi','abcpoiuy',NULL,'2019-07-31 15:36:20','2019-07-31 15:36:20'),(17,'qwerty','test@test.com','asdfgh','$2b$10$3LZfSzivek1lHQYi8thpB.3ywNuUR/VKoZVyzc9icuwL.ihIrTp0e','jhcbjbdnnd',NULL,'2019-08-01 18:10:16','2019-08-01 18:10:16'),(18,'','','','$2b$10$RNc4kZLrmXq9WEcj0Eqi5uIRg2E6NGualZkAE12vTpSSOcZLoF2JG','',NULL,'2019-08-01 18:31:31','2019-08-01 18:31:31');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-07-31 14:16:05
+-- Dump completed on 2019-08-05 14:42:04

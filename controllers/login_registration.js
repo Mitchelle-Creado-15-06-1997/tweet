@@ -246,17 +246,28 @@ for_password(request,response)
 searchglobal(request, response){
 
     var searchname = request.body.searchname;
-    connection.query('select * from user where Name = ?  ',[searchname], function (err,data){
+    connection.query('select name,userhandle,profile_image from user where user_handle = ?  ',[searchname], function (err,data){
         response.send(data);
     
     
     });
     }
+
+    search_hashtag(request,response){
+        var searchname = request.body.searchname;
+        connection.query('select  post_text ,media,userhandle from tweets where match(hashtag) Against(?) order by updated_at desc ',[searchname],function(err,data){
+            response.send(data);
+            if(err)
+            {
+                response.send("error");
+            }
+        })
+    }
     
 
   tweets(request, response){
     var post_text = request.body.post_text;
-   // var hashtag= request.body.hashtag;
+   var hashtag= request.body.hashtag;
     var media = request.body.media;
    // var media = request.body.media;
     var userhandle = request.body.userhandle;
@@ -268,13 +279,13 @@ searchglobal(request, response){
         post_text,
         media,
 
-        //hashtag,
+        hashtag,
         userhandle
         
        // user_handle 
 
     }
-    console.log(post_text);
+    //console.log(post_text);
 console.log(tweet);
 
     //console.log(tweet);
