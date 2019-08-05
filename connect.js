@@ -3,7 +3,9 @@ let connection=mysql.createConnection({
     host:'localhost',
     user:'root',
     password:'password',
-    database: 'twitter'
+    database: 'twitter',
+    timezone:'utc',
+    dateStrings:true
 });
 
 connection.connect(function(err){

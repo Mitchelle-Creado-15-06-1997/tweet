@@ -217,6 +217,11 @@ displaytweets(request, response){
     var userhandle = request.body.userhandle;
     connection.query('select post_text,userhandle,media,updated_at from tweets where userhandle = ?  order by updated_at desc',[userhandle], function (err,data){
     response.send(data);
+    console.log(data[0].updated_at);
+    if(err)
+    {
+        response.send("error");
+    }
 });
 }
 forgot_pass(request,response)

@@ -23,7 +23,13 @@ function displaytweets(){
     })
     .done(function(data){
         var html = "";
+        var t = "";
+        var tweet_time ="";
         $.each(data, function (index, value) {
+
+            t = data[index].updated_at;
+            tweet_time = t.toLocaleString('en-US',{timeZone : "Asia/Kolkata"});
+         // t =  data[index].updated_at.split("T");
             html+=`
             <article class="post">
                 <header>
@@ -33,7 +39,7 @@ function displaytweets(){
                    <p></p>
                     </div>
                     <div class="meta">
-                        <time class="published" datetime="2015-11-01">${data[index].updated_at}</time>
+                        <time class="published" datetime="2015-11-01">${tweet_time}</time>
                         <a href="#" class="author"><span class="name">${data[index].userhandle}</span><img src="images/avatar.jpg" alt="" /></a>
                         </div>
                 </header>
@@ -51,7 +57,8 @@ function displaytweets(){
                 </footer>
             </article>`;
    // console.log(data[index].tweet_id);
-
+         t = ""; 
+         tweet_time ="";
         });
      
         $('#post').html(html);
