@@ -243,7 +243,16 @@ for_password(request,response)
        }
     });
 }
+searchglobal(request, response){
 
+    var searchname = request.body.searchname;
+    connection.query('select * from user where Name = ?  ',[searchname], function (err,data){
+        response.send(data);
+    
+    
+    });
+    }
+    
 
   tweets(request, response){
     var post_text = request.body.post_text;
