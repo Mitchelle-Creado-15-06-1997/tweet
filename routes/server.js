@@ -67,7 +67,7 @@ app.post('/home/editprofileget', vlass.editprofileget);
 app.post('/home/displaytweets', vlass.displaytweets);
 
 app.post('/home/retweet', vlass.retweet);
-app.post('/home/searchglobal', vlass.searchglobal);
+app.post('/home/searchprofile', vlass.search_profile);
 
 app.post('/home/searchhashtag', vlass.search_hashtag);
 
