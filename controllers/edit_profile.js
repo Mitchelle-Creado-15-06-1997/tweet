@@ -40,7 +40,7 @@ class edit_profile{
     
     
         connection.query('Insert into tweets set ?',[tweet])
-        response.send("success");
+        response.send("bye");
     
     
     

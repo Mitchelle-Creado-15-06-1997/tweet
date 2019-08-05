@@ -64,12 +64,12 @@ class Login_registration{
 
 
 bcrypt.hash(courses.password_hash, 10 , function(err,hash){
-    if(err) console.log(err);
+    if(err) //console.log(err);
     courses.password_hash = hash;
     connection.query(`INSERT INTO user set?`,[courses])
     response.sendFile(path.join(__dirname + '/../views/login.html'));
 
-    console.log(courses.password_hash);
+    //console.log(courses.password_hash);
 
 });
 
@@ -80,21 +80,63 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
 
             // response.sendFile(path.join(__dirname + '/views/login.html'));
         
-            // console.log(user_handle);
+            // //console.log(user_handle);
             
 
         }
+        editprofile(request, response){
+        
+            // var user_handle = request.body.user_handle;
+           
+             var profile_image = request.body.profile_image;
+             var user_handle= request.body.user_handle;
+             //console.log("edit func");
+            // //console.log(profile_image);
+            // //console.log(user_handle);
+             
+               //  //console.log("hi");
+               connection.query('update user set profile_image=? where user_handle=?',[profile_image, user_handle]);
+              
+              
+         response.send("success");
+     
+
+         }
+         editprofileget(request, response){
+        
+            // var user_handle = request.body.user_handle;
+           var user_handle = request.body.user_handle;
+             var img;
+            // //console.log("edit func");
+            // //console.log(profile_image);
+            // //console.log(user_handle);
+             
+               //  //console.log("hi");
+               connection.query('select profile_image from user where user_handle=?', [user_handle], function(error, results, fields) {
+                if (results.length > 0) {
+                    
+                    response.send(results);
+                    console.log(results);
+                }			
+                response.end();
+            });
+              
+              
+      //   response.send();
+     
+
+         }
     gethome(request, response) {
         var name = request.params.name;
             if (request.session.loggedin) {
                 response.send('Welcome back, ' + request.session.name + '!');
                 // response.sendFile(path.join(__dirname + '/home'));
                 //response.redirect('login.html');
-                //console.log("hii");
+                ////console.log("hii");
                   //response.render('index.html');
                 //response.sendFile(path.join(__dirname + '/login.html'));
       //  var name =request.session.user_handle;
-        console.log(name);
+       // //console.log(name);
             // response.sendFile(path.join(__dirname + '/index.html', {name:name}));
                 
             } else {
@@ -111,13 +153,13 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
         for_password(request,response)
         {
             var email = request.body.email;
-         //  console.log(JSON.stringify(email));
+         //  //console.log(JSON.stringify(email));
             connection.query('select user_id from user where email= ? ',[request.body.email], function (err,data){
                if(err)
                console.log(err);
                else{
                    response.send(JSON.stringify(data));
-                 //  console.log(data);
+                 //  //console.log(data);
                    
                }
             });
@@ -128,9 +170,9 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
       var user_handle = request.body.user_handle;
       
       var password = request.body.password;
-     // console.log(user_handle);
+     // //console.log(user_handle);
       if (user_handle && password) {
-        //  console.log("hi");
+        //  //console.log("hi");
         connection.query('SELECT * FROM user WHERE user_handle = ? AND password = ?', [user_handle, password], function(error, data, fields) {
             if (data.length > 0) {
                 request.session.loggedin = true;
@@ -144,7 +186,7 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
             response.end();
         });
     } else {
-     //   console.log("hi2");
+     //   //console.log("hi2");
 
         response.send('Please enter Username and Password!');
         response.end();
@@ -153,31 +195,78 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
   }
 
 
+retweet(request, response){
+
+    var tweet_id = request.body.tweet_id;
+   var user_id= request.body.user_id;
+     const  tweet ={
+         user_id,
+         tweet_id
+ 
+     }
+     
+ 
+     connection.query('Insert into retweet set ?',[tweet])
+     response.send("success");
+ 
+ 
+ 
+
+}
+displaytweets(request, response){
+    var userhandle = request.body.userhandle;
+    connection.query('select * from tweets where userhandle= ? ',[userhandle], function (err,data){
+    response.send(data);
+});
+}
+forgot_pass(request,response)
+{
+     response.sendFile(path.join(__dirname + '/../views/forgot_pass.html'));
+}
+
+for_password(request,response)
+{
+    var email = request.body.email;
+ //  //console.log(JSON.stringify(email));
+    connection.query('select user_id from user where email= ? ',[request.body.email], function (err,data){
+       if(err)
+       console.log(err);
+       else{
+           response.send(JSON.stringify(data));
+         //  //console.log(data);
+           
+       }
+    });
+}
 
 
   tweets(request, response){
     var post_text = request.body.post_text;
    // var hashtag= request.body.hashtag;
-    
+    var media = request.body.media;
    // var media = request.body.media;
     var userhandle = request.body.userhandle;
-    console.log(userhandle);
-    console.log(post_text);
-    console.log("hiiiiii");
+    //console.log(userhandle);
+    //console.log(post_text);
+    //console.log("hiiiiii");
 
     const  tweet ={
         post_text,
+        media,
+
         //hashtag,
         userhandle
-        //media
         
        // user_handle 
 
     }
-    console.log(tweet);
+    console.log(post_text);
+console.log(tweet);
 
-    console.log(tweet.post_text);
-    console.log(tweet.userhandle);
+    //console.log(tweet);
+
+    //console.log(tweet.post_text);
+    //console.log(tweet.userhandle);
 
 
     connection.query('Insert into tweets set ?',[tweet])
@@ -195,12 +284,12 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
       
     var id = request.body.id;
     
-   console.log("id is"+id);
+   //console.log("id is"+id);
     
    // var password = request.body.password;
-   // console.log(user_handle);
+   // //console.log(user_handle);
     if (id) {
-      //  console.log("hi");
+      //  //console.log("hi");
       connection.query(`SELECT * FROM user WHERE id = ? `,[id], function(error, data, fields) {
           if (data.length > 0) {
               request.session.loggedin = true;
@@ -214,7 +303,7 @@ bcrypt.hash(courses.password_hash, 10 , function(err,hash){
           response.end();
       });
   } else {
-   //   console.log("hi2");
+   //   //console.log("hi2");
 
       response.send('Please enter Username and Password!');
       response.end();

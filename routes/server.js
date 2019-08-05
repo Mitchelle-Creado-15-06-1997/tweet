@@ -18,11 +18,14 @@ app.use(session({
 }));
 app.use('/home/assets', express.static(__dirname + '/../views/assets'));
 app.use('/home/images', express.static(__dirname + '/../views/images'));
+app.use('/views/assets', express.static(__dirname + '/../views/assets'));
 
 app.use('/assets', express.static(__dirname + '/../views/assets'));
 app.use('/js', express.static(__dirname + '/../views/js'));
 app.use('/home', express.static(__dirname + '/../views/index.html'));
 //app.use('/home/:name', express.static(__dirname + '/../views/index.html'));
+app.use('/home/profile_image', express.static(__dirname + '/../views/profile_image'));
+app.use('/home/tweet_image', express.static(__dirname + '/../views/tweet_image'));
 
 app.use('/images', express.static(__dirname + '/../views/images'));
 // app.use('/ajaxcall', express.static(__dirname + '/views/login.html'));
@@ -58,7 +61,14 @@ app.get('/forgot_pass.html',vlass.forgot_pass)
 
 //app.post('/home/:name/tweets', vlass.tweets);
 app.post('/home/tweets', vlass.tweets);
-app.post('/home/edit_profile', edit_profile.edit_profile);
+app.post('/home/editprofile', vlass.editprofile);
+app.post('/home/editprofileget', vlass.editprofileget);
+//app.post('/home/postimage', vlass.postimage);
+app.post('/home/displaytweets', vlass.displaytweets);
+
+app.post('/home/retweet', vlass.retweet);
+
+
 
 const port = process.env.PORT || 3000;
 app.listen(port,()=>console.log(`listening on port ${port}`));
