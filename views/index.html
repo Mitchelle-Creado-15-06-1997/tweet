@@ -27,12 +27,12 @@
 						</nav>
 						<nav class="main">
 							<ul>
-								<!-- <li class="search">
+								<li class="search">
 									<a class="fa-search" href="#search">Search</a>
 									<form id="search" method="get" action="#">
 										<input type="text" name="query" placeholder="Search" />
 									</form>
-								</li> -->
+								</li>
 								<li class="menu">
 									<a class="fa-bars" href="#menu">Menu</a>
 								</li>
@@ -138,7 +138,7 @@
 														<i class="fa fa-camera upload-button" ></i>
 													  </div>
 												   </div>
-												   <input class="file-upload" type="file" id="media" name="media" onclick="editprofile()" accept="image/*"/>
+												   <input class="file-upload" type="file" id="media1" name="media1" onclick="editprofile()" accept="image/*"/>
 
 												 </div>
 										<!-- <i class="fa fa-user-circle-o usericon" style="font-size:48px;color:black"></i> -->
@@ -148,24 +148,34 @@
 										<a href="#" class="icon solid fa-users following">following</a>
 										
 								</header>
-								<center><div class="buttontweet"><button type="button" class=" button button4" data-toggle="modal" data-target="#myModal">
-										Tweet
-									  </button></div></center>
+								
 
 									  
 								
 							</section>
+							
 							<center>
 									<button type="button" class="button button4" onclick="displaytweets()">
 											Home
-										  </button><br>
-										  <button type="button" class="button button4" onclick="displaytweets()" >
+										  </button>
+										<button type="button" class="button button4" onclick="displaytweets()" >
 												YourTweet
-											  </button>
+											  </button><br>
+											<div class="buttontweet"><button type="button" class=" button button4" id="postbutton" onclick="tweetfunction()">
+												Tweet
+											  </button></div>
+											  <div class="postid" id="postid"><section>
+												<textarea type="text" name="post_text" id="post_text"></textarea>
+									<label>Enter Your post</label><br><br>
 									
+									
+									<input type="file"  accept="video/*|image/*" name="media" class="media" id="media" onchange="imagechange()">
+									
+									<button type="button" class="button button4" data-dismiss="modal" onclick = "post_tweet()">Post</button>
+								</section></div></center>
 		
 					
-								</center>
+								
 								<script>
 								</script>
 					
@@ -189,16 +199,10 @@
 			  
 			  <!-- Modal body -->
 			  <div class="modal-body">
-				<textarea type="text" name="post_text" id="post_text"></textarea>
-				<label>Enter Your post</label><br><br>
-				<!-- <input type="text" name="hashtag" id="hashtag">
-				<label>Enter Your Hashtags</label><br><br> -->
-				<input type="file"  accept="image/*" name="media" class="media" id="media" >
-				<label>Upload Your Image</label>
+				
 			  </div>
 			  <!-- Modal footer -->
 			  <div class="modal-footer">
-				<button type="button" class="btn postimg posting" data-dismiss="modal" onclick = "post_tweet()">Post</button>
 			  </div>
 			  
 			</div>

@@ -193,23 +193,33 @@ class Login_registration {
     }
 
 
-    retweet(request, response) {
+    retweet(request, response){
 
         var tweet_id = request.body.tweet_id;
-        var user_id = request.body.user_id;
-        const tweet = {
-            user_id,
-            tweet_id
-
-        }
-
-
-        connection.query('Insert into retweet set ?', [tweet])
-        response.send("success");
-
-
-
-
+       var user_handle= request.body.user_handle;
+         const  tweet ={
+             user_handle,
+             tweet_id
+     
+         }
+         var idname;
+          connection.query('select user_id from user where user_handle = ?',[user_handle],function(err,data){
+              if(err)
+              {throw err;}
+              else
+              {
+                idname= data[0].user_id;
+                  console.log(idname);
+              } 
+    
+          });
+     
+        // connection.query('Insert into retweet set ?',[tweet])
+         //response.send("success");
+     
+     
+     
+    
     }
     displaytweets(request, response) {
         var userhandle = request.body.userhandle;
