@@ -282,7 +282,7 @@ var image = document.getElementById('media').name;
         
          // $('#result').html("invalid user_handle and password");
         //console.log(data);
-        
+        reset_tweet();
         $('#result').html(JSON.stringify(data));
 
         
@@ -296,6 +296,10 @@ var image = document.getElementById('media').name;
         //console.log('Ajax error',textStatus);
     });
    
+  }
+  function reset_tweet()
+  {
+     $("#post_text").val("");
   }
 
   

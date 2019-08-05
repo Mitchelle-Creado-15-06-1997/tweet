@@ -215,7 +215,7 @@ retweet(request, response){
 }
 displaytweets(request, response){
     var userhandle = request.body.userhandle;
-    connection.query('select * from tweets where userhandle= ? ',[userhandle], function (err,data){
+    connection.query('select post_text,userhandle,media,updated_at from tweets where userhandle = ?  order by updated_at desc',[userhandle], function (err,data){
     response.send(data);
 });
 }
