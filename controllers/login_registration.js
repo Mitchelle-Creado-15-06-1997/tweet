@@ -195,8 +195,8 @@ class Login_registration {
     }
 
 
-    retweet(request, response){
-
+   retweet(request, response){
+console.log("retweet class");
         var tweet_id = request.body.tweet_id;
        var user_handle= request.body.user_handle;
          const  tweet ={
@@ -205,13 +205,13 @@ class Login_registration {
      
          }
          var idname;
-          connection.query('select user_id from user where user_handle = ?',[user_handle],function(err,data){
+          connection.query('insert into retweet (tweet_id,user_id) values (? ,(select user_id from user where user_handle = ?))',[tweet_id,user_handle],function(err,data){
               if(err)
               {throw err;}
               else
               {
-                idname= data[0].user_id;
-                  console.log(idname);
+                //idname= data[0].user_id;
+                //  console.log(idname);
               } 
     
           });
@@ -223,9 +223,16 @@ class Login_registration {
      
     
     }
+    like(request, response){
+       var likecount = request.body.likecount;
+        var tweet_id = request.body.tweet_id;
+        connection.query('update tweets set likecount = likecount + likecount where tweet_id =?', [tweet_id])
+
+
+    }
     displaytweets(request, response) {
         var userhandle = request.body.userhandle;
-        connection.query('select post_text,userhandle,media,updated_at from tweets where userhandle = ?  order by updated_at desc', [userhandle], function (err, data) {
+        connection.query('select * from tweets where userhandle = ?  order by updated_at desc', [userhandle], function (err, data) {
             response.send(data);
             console.log(data[0].updated_at);
             if (err) {
@@ -252,8 +259,25 @@ class Login_registration {
     }
 
 follow(request, response){
-    var name1 = request.body.index;
-    console.log("it is name"+name1);
+    var follower_id = request.body.index;
+    var namefollower = request.body.user_handle;
+    
+    
+    connection.query('insert into user_follower (user_id,follower_id) values ((select user_id from user where user_handle = ?),? )',[follower_id,namefollower],function(err,data){
+
+   
+        if(err)
+        {throw err;}
+        else
+        {
+          //idname= data[0].user_id;
+          //  console.log(idname);
+        } 
+
+    });
+    
+
+
 }
 
     search_profile(request, response) {
