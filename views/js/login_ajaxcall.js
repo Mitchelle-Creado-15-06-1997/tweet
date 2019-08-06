@@ -3,19 +3,19 @@ var formdata = {};
 var name;
 var idval;
 var txt;
-function imagechange(){
+function imagechange() {
     var x = document.getElementById("media");
     txt = "";
     if ('files' in x) {
-        
-           
-            var file = x.files[0];
-            if ('name' in file) {
-              txt =  file.name;
-            }
-    
-}
-console.log(txt);
+
+
+        var file = x.files[0];
+        if ('name' in file) {
+            txt = file.name;
+        }
+
+    }
+    console.log(txt);
 }
 console.log(idval);
 
@@ -24,28 +24,28 @@ function what() {
 };
 var imageonload;
 var imageurl;
-function displaytweets(){
-    var post_data={
-        userhandle:name
+function displaytweets() {
+    var post_data = {
+        userhandle: name
     }
     $.ajax({
-        type:"post",
-        url:window.location +"/displaytweets",
-        data : post_data,
-        
-        datatype:'json'
+        type: "post",
+        url: window.location + "/displaytweets",
+        data: post_data,
+
+        datatype: 'json'
 
     })
-    .done(function(data){
-        var html = "";
-        var t = "";
-        var tweet_time ="";
-        $.each(data, function (index, value) {
+        .done(function (data) {
+            var html = "";
+            var t = "";
+            var tweet_time = "";
+            $.each(data, function (index, value) {
 
-            t = data[index].updated_at;
-            tweet_time = t.toLocaleString('en-US',{timeZone : "Asia/Kolkata"});
-         // t =  data[index].updated_at.split("T");
-            html+=`
+                t = data[index].updated_at;
+                tweet_time = t.toLocaleString('en-US', { timeZone: "Asia/Kolkata" });
+                // t =  data[index].updated_at.split("T");
+                html += `
             <article class="post">
                 <header>
                     <div class="title">
@@ -72,18 +72,18 @@ function displaytweets(){
                     </ul>
                 </footer>
             </article>`;
-   // console.log(data[index].tweet_id);
-         t = ""; 
-         tweet_time ="";
+                // console.log(data[index].tweet_id);
+                t = "";
+                tweet_time = "";
+            });
+
+            $('#post').html(html);
+
+
+        })
+        .fail(function (jqxhr, textStatus, err) {
+            console.log('Ajax error', textStatus);
         });
-     
-        $('#post').html(html);
-      
-       
-    })
-    .fail(function(jqxhr,textStatus,err){
-        console.log('Ajax error',textStatus);
-    });
 }
 
 function bodyimage() {
@@ -203,9 +203,10 @@ function editprofileget() {
 
 }
 
-function clear_disp(){
+function clear_disp() {
     $('#searchname').val("");
     $('#dispsearch').html("");
+    $('#dispsearchHash').html("");
 }
 
 
@@ -280,22 +281,24 @@ function getHashTags(inputText) {
     return hash;
 }
 function post_tweet() {
+    document.getElementById("postid").style.visibility = "visible";
     var path = "home/profile_image/";
-    //var image = file.name;
-   
+    var post_text = $("#post_text").val();
+    if (post_text == '')
+    {
+        alert("  please enter data to be posted ");
+        //$('#postid').html("please enter your tweet");
+    }
+    else {
     var file = document.querySelector('input[type=file]').files[0];
-    //var imgname = $("#media").name.val();
- console.log("imgnmae "+file);
- var txt1=txt;
+    console.log("imgnmae " + file);
+    var txt1 = txt;
     var hash = getHashTags($("#post_text").val());
     var post_data = {
 
         post_text: $("#post_text").val(),
         hashtag: hash,
-         media : path+txt1,
-
-        // hashtag:$("#hashtag").val(),
-        // media : $("#media").val(),
+        media: path + txt1,
         userhandle: name
 
     }
@@ -308,58 +311,50 @@ function post_tweet() {
 
     })
         .done(function (data) {
-
-
             // $('#result').html("invalid user_handle and password");
             //console.log(data);
             reset_tweet();
             alert("Posted Successfully");
 
             $('#result').html(JSON.stringify(data));
-
-
-
-
-
-
-
-        })
+         })
         .fail(function (jqxhr, textStatus, err) {
             //console.log('Ajax error',textStatus);
         });
 
+    }
+    document.getElementById("postid").style.visibility = "hidden";
 }
-document.getElementById("postid").style.visibility = "hidden";
+//document.getElementById("postid").style.visibility = "hidden";
 
-function tweetfunction(){
-   // document.getElementById("postbutton").style.visibility = "hidden";
+function tweetfunction() {
+    // document.getElementById("postbutton").style.visibility = "hidden";
 
     document.getElementById("postid").style.visibility = "visible";
+    return;
 
 }
-function reset_tweet()
-  {
-     $("#post_text").val("");
-     
-     $("#media").val("");
-  }
+function reset_tweet() {
+    $("#post_text").val("");
 
-  
+    $("#media").val("");
+}
+
+
 function searchglobal() {
-    var html ="";
+    var html = "";
     var searchname = $("#searchname").val();
 
     var n = searchname.startsWith("#");
     console.log(n);
-    if (n==true) 
-    {
+    if (n == true) {
         console.log("hashtag if");
         search_hashtag();
     }
-     else{
-         console.log(" i m in else")
+    else {
+        console.log(" i m in else")
         var send_search = {
-            searchname:$("#searchname").val()
+            searchname: $("#searchname").val()
 
         }
         $.ajax({
@@ -373,35 +368,35 @@ function searchglobal() {
             .done(function (data) {
                 var n = data.length;
 
-                 if (n === 0 ){
-                    console.log(n);   
+                if (n === 0) {
+                    console.log(n);
                     $('#dispsearch').html("not found");
-                 }
-                      //console.log(data.length);
-                  
-                        //console.log(typeof(data));
-                        else{
-                            $.each(data, function (index, value) {
+                }
+                //console.log(data.length);
 
-                    html+=`
+                //console.log(typeof(data));
+                else {
+                    $.each(data, function (index, value) {
+
+                        html += `
                     
 
                     <span class="name"><img src="${data[index].profile_image}" alt="" height="30" width="30px" />${data[index].Name}</span>
                         <button class="button button4" onclick="follow(${data[index].user_id})">Follow</button>
                 `;
-                            });
-                $('#dispsearch').html(html);
-                        }
+                    });
+                    $('#dispsearch').html(html);
+                }
             })
             .fail(function (jqxhr, textStatus, err) {
                 console.log('Ajax error', textStatus);
             });
 
-        }
+    }
 
 }
-function follow(index){
-   
+function follow(index) {
+
     var index1 = {
         index: index
 
@@ -417,7 +412,7 @@ function follow(index){
     })
         .done(function (data) {
             console.log("done");
-            
+
         })
         .fail(function (jqxhr, textStatus, err) {
             console.log('Ajax error', textStatus);
@@ -427,7 +422,7 @@ function follow(index){
 }
 
 function search_hashtag() {
-    var html ="";
+    var html = "";
     console.log("search hashtag");
     var searchname = $("#searchname").val();
     var send_search = {
@@ -443,22 +438,21 @@ function search_hashtag() {
 
     })
         .done(function (data) {
-            if(data.length === 0)
-            {
+            if (data.length === 0) {
                 $('#dispsearch').html("NOT FOUND");
             }
 
-            else{
+            else {
                 $.each(data, function (index, value) {
-console.log(data[index].media);
-                    html+=`
+                    console.log(data[index].media);
+                    html += `
                     
                   <center>  @${data[index].userhandle}</center><br>
                   <center>   <span class="name"><iframe src="${data[index].media}" height="100" style="width:100px"></iframe><br>${data[index].post_text}<br></span> </center>  
                         
                 `;
-                            });
-            $('#dispsearchHash').html(html);
+                });
+                $('#dispsearchHash').html(html);
             }
         })
         .fail(function (jqxhr, textStatus, err) {
@@ -471,31 +465,31 @@ console.log(data[index].media);
 
 
 
-function retweet(index){
+function retweet(index) {
     var user_handle = name;
     //console.log(id);
-var post_data ={
-    //user_id:id,
-    user_handle,
-    tweet_id:index
+    var post_data = {
+        //user_id:id,
+        user_handle,
+        tweet_id: index
 
-}
+    }
     $.ajax({
-        type:"POST",
-        
-        url:window.location +"/retweet",
-        data : post_data,
-        datatype:'json'
+        type: "POST",
+
+        url: window.location + "/retweet",
+        data: post_data,
+        datatype: 'json'
 
     })
-    .done(function(data){
+        .done(function (data) {
 
-       
-      
-    })
-    .fail(function(jqxhr,textStatus,err){
-        console.log('Ajax error',textStatus);
-    });
+
+
+        })
+        .fail(function (jqxhr, textStatus, err) {
+            console.log('Ajax error', textStatus);
+        });
 
 }
 
