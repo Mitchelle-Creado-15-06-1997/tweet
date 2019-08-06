@@ -24,33 +24,34 @@ function what() {
 };
 var imageonload;
 var imageurl;
-function displaytweets() {
-    var post_data = {
-        userhandle: name
+function displaytweets(){
+    var post_data={
+        userhandle:name
     }
     $.ajax({
-        type: "post",
-        url: window.location + "/displaytweets",
-        data: post_data,
-
-        datatype: 'json'
+        type:"post",
+        url:window.location +"/displaytweets",
+        data : post_data,
+        
+        datatype:'json'
 
     })
-        .done(function (data) {
-            var html = "";
-            var t = "";
-            var tweet_time = "";
-            $.each(data, function (index, value) {
+    .done(function(data){
+        var html = "";
+        var t = "";
+        var tweet_time ="";
+        $.each(data, function (index, value) {
 
-                t = data[index].updated_at;
-                tweet_time = t.toLocaleString('en-US', { timeZone: "Asia/Kolkata" });
-                // t =  data[index].updated_at.split("T");
-                html += `
+
+            t = data[index].updated_at;
+            tweet_time = t.toLocaleString('en-US',{timeZone : "Asia/Kolkata"});
+         // t =  data[index].updated_at.split("T");
+            html+=`
             <article class="post">
                 <header>
                     <div class="title">
                         <h2><a href="single.html"></a></h2>
-                   ${data[index].post_text}
+                        ${data[index].post_text}
                    <p></p>
                     </div>
                     <div class="meta">
@@ -67,23 +68,55 @@ function displaytweets() {
                     </ul>
                     <ul class="stats">
                         <li><a href="#"></a></li>
-                        <li><a href="#" class="icon solid fa-heart" onclick="glow()"></a></li>
-                        <li><a href="#" class="icon solid fa-comment">128</a></li>
+                        <li><button class="icon solid fa-heart" style="color:red"  onclick="glow(${data[index].tweet_id})"></button></li>
+                        <li><button class="icon solid fa-comment">128</button></li>
                     </ul>
                 </footer>
             </article>`;
-                // console.log(data[index].tweet_id);
-                t = "";
-                tweet_time = "";
-            });
+   // console.log(data[index].tweet_id);
+         t = ""; 
+         tweet_time ="";
+        });
+     
+        $('#post').html(html);
+      
+       
+    })
+    .fail(function(jqxhr,textStatus,err){
+        console.log('Ajax error',textStatus);
+    });
+}
+function bodyimage(){
 
-            $('#post').html(html);
+}
+function glow(tweet_id) {
+    var likecount=1;
+    alert("hi");
+    console.log("tweet_id is"+likecount);
+    senddata = {
+        tweet_id:tweet_id,
+       likecount:likecount
+    }
+    console.log("formdata is"+JSON.stringify( senddata));
 
+    // //console.log(formdata.user_handle);
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/like",
+        data: senddata,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+           
 
         })
         .fail(function (jqxhr, textStatus, err) {
-            console.log('Ajax error', textStatus);
+           console.log('Ajax error',textStatus);
         });
+
+
 }
 
 function bodyimage() {
@@ -416,9 +449,11 @@ function searchglobal() {
     }
 
 }
-function follow(index) {
-
+function follow(index){
+    var user_handle = name;
+   
     var index1 = {
+        user_handle:user_handle,
         index: index
 
     }
@@ -433,7 +468,7 @@ function follow(index) {
     })
         .done(function (data) {
             console.log("done");
-
+            
         })
         .fail(function (jqxhr, textStatus, err) {
             console.log('Ajax error', textStatus);
@@ -443,7 +478,7 @@ function follow(index) {
 }
 
 function search_hashtag() {
-    var html = "";
+    var html ="";
     console.log("search hashtag");
     var searchname = $("#searchname").val();
     var send_search = {
@@ -459,21 +494,22 @@ function search_hashtag() {
 
     })
         .done(function (data) {
-            if (data.length === 0) {
+            if(data.length === 0)
+            {
                 $('#dispsearch').html("NOT FOUND");
             }
 
-            else {
+            else{
                 $.each(data, function (index, value) {
-                    console.log(data[index].media);
-                    html += `
+console.log(data[index].media);
+                    html+=`
                     
                   <center>  @${data[index].userhandle}</center><br>
-                  <center>   <span class="name"><iframe src="${data[index].media}" height="100" style="width:100px"></iframe><br>${data[index].post_text}<br></span> </center>  
+                  <center>   <span class="name"><iframe src="${data[index].media}" height="100" style="width:100px"></iframe><br>${data[index].post_text}<br></span> <center>  
                         
                 `;
-                });
-                $('#dispsearchHash').html(html);
+                            });
+            $('#dispsearchHash').html(html);
             }
         })
         .fail(function (jqxhr, textStatus, err) {
@@ -486,33 +522,42 @@ function search_hashtag() {
 
 
 
-function retweet(index) {
+function retweet(index){
+    console.log("retweet ajax");
     var user_handle = name;
-    //console.log(id);
-    var post_data = {
-        //user_id:id,
-        user_handle,
-        tweet_id: index
-
-    }
-    $.ajax({
-        type: "POST",
-
-        url: window.location + "/retweet",
-        data: post_data,
-        datatype: 'json'
-
-    })
-        .done(function (data) {
-
-
-
-        })
-        .fail(function (jqxhr, textStatus, err) {
-            console.log('Ajax error', textStatus);
-        });
+    
+    console.log("tweet id is"+index);
+var post_data ={
+    //user_id:id,
+    user_handle,
+    tweet_id:index
 
 }
+console.log(post_data);
+
+    $.ajax({
+        type:"POST",
+        
+        url:window.location +"/retweet",
+        data : post_data,
+        datatype:'json'
+
+    })
+    .done(function(data){
+
+       
+      
+    })
+    .fail(function(jqxhr,textStatus,err){
+        console.log('Ajax error',textStatus);
+    });
+
+}
+
+
+
+
+
 
 
 
