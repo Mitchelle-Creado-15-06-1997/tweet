@@ -263,7 +263,7 @@ follow(request, response){
     var namefollower = request.body.user_handle;
     
     
-    connection.query('insert into user_follower (user_id,follower_id) values ((select user_id from user where user_handle = ?),? )',[follower_id,namefollower],function(err,data){
+    connection.query('insert into user_follower (user_id,follower_id) values ((select user_id from user where user_handle = ?),? )',[namefollower,follower_id],function(err,data){
 
    
         if(err)

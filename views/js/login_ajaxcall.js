@@ -236,7 +236,7 @@ function get() {
             // //console.log(datanew[0].Name);
             $('#getResponse').html(name);
             // window.location.href = `http://localhost:3000/home/${name}`;
-            window.location.href = `http://localhost:4000/home`;
+            window.location.href = `http://localhost:8000/home`;
 
 
             }
