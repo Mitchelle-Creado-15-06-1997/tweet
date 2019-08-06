@@ -341,7 +341,7 @@ function reset_tweet()
 
   
 function searchglobal() {
-    
+    var html ="";
     var searchname = $("#searchname").val();
 
     var n = searchname.startsWith("#");
@@ -376,8 +376,16 @@ function searchglobal() {
                   
                         //console.log(typeof(data));
                         else{
+                            $.each(data, function (index, value) {
+
+                    html+=`
                     
-                $('#dispsearch').html(JSON.stringify(data));
+
+                    <span class="name"><img src="${data[index].profile_image}" alt="" height="30" width="30px" />${data[index].Name}</span>
+                        <button class="button button4" onclick="follow(${data[index].user_id})">Follow</button>
+                `;
+                            });
+                $('#dispsearch').html(html);
                         }
             })
             .fail(function (jqxhr, textStatus, err) {
@@ -387,8 +395,34 @@ function searchglobal() {
         }
 
 }
+function follow(index){
+   
+    var index1 = {
+        index: index
+
+    }
+    console.log(index);
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/follow",
+        data: index1,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+            console.log("done");
+            
+        })
+        .fail(function (jqxhr, textStatus, err) {
+            console.log('Ajax error', textStatus);
+        });
+
+
+}
 
 function search_hashtag() {
+    var html ="";
     console.log("search hashtag");
     var searchname = $("#searchname").val();
     var send_search = {
@@ -410,7 +444,16 @@ function search_hashtag() {
             }
 
             else{
-            $('#dispsearch').html(JSON.stringify(data));
+                $.each(data, function (index, value) {
+console.log(data[index].media);
+                    html+=`
+                    
+                  <center>  @${data[index].userhandle}</center><br>
+                  <center>   <span class="name"><iframe src="${data[index].media}" height="100" style="width:100px"></iframe><br>${data[index].post_text}<br></span> </center>  
+                        
+                `;
+                            });
+            $('#dispsearchHash').html(html);
             }
         })
         .fail(function (jqxhr, textStatus, err) {

@@ -249,14 +249,17 @@ class Login_registration {
         });
     }
 
-
+follow(request, response){
+    var name1 = request.body.index;
+    console.log("it is name"+name1);
+}
 
     search_profile(request, response) {
         console.log("i m in class")
 
         var searchname = request.body.searchname;
         console.log(searchname);
-        connection.query('select Name,user_handle,profile_image from user where user_handle = ?  ', [searchname], function (err, data) {
+        connection.query('select * from user where user_handle = ?  ', [searchname], function (err, data) {
             response.send(data);
             if(err)
             {
@@ -272,7 +275,7 @@ class Login_registration {
 
     search_hashtag(request, response) {
         var searchname = request.body.searchname;
-        connection.query('select  post_text ,media,userhandle from tweets where match(hashtag) Against(?) order by updated_at desc ', [searchname], function (err, data) {
+        connection.query('select * from tweets where match(hashtag) Against(?) order by updated_at desc ', [searchname], function (err, data) {
             response.send(data);
             if (err) {
                 response.send("error");

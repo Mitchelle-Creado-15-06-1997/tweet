@@ -71,6 +71,7 @@ app.post('/home/searchprofile', vlass.search_profile);
 
 app.post('/home/searchhashtag', vlass.search_hashtag);
 
+app.post('/home/follow', vlass.follow);
 
 const port = process.env.PORT || 4000;
 app.listen(port,()=>console.log(`listening on port ${port}`));
