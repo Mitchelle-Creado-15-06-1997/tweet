@@ -203,6 +203,11 @@ function editprofileget() {
 
 }
 
+function clear_disp(){
+    $('#searchname').val("");
+    $('#dispsearch').html("");
+}
+
 
 
 
