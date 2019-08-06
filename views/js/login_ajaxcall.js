@@ -162,6 +162,15 @@ function get() {
         user_handle: $("#Userhandle").val(),
         password: $("#userPass").val()
     }
+    if (formdata.user_handle == '' || formdata.password == '') 
+    {
+        //alert("enter your login credentials");
+        var message = "Enter your login credentials";
+        var h ="";
+        h +=`<p style="color:#FF6666;font-size:0.75em;">${message}</p>`
+        $("#errormessage").html(h);
+    }
+    else{
 
     // //console.log(formdata.user_handle);
     $.ajax({
@@ -175,24 +184,36 @@ function get() {
         .done(function (data) {
             // var datanew = data;
 
-            name = data[0].Name;
-            idval = data[0].user_id;
+            // name = data[0].Name;
+            // idval = data[0].user_id;
+            // console.log(data);
 
+            if (data == '')
+            {
+                var message = "Invalid userHandle or Password";
+                var h ="";
+                h +=`<p style="color:#FF6666;font-size:0.75em;">${message}</p>`
+                $("#errormessage").html(h);
+            }
 
-
+            else
+            {
+                name = data[0].Name;
+                idval = data[0].user_id;
             // //console.log(datanew[0].Name);
             $('#getResponse').html(name);
             // window.location.href = `http://localhost:3000/home/${name}`;
             window.location.href = `http://localhost:4000/home`;
 
 
-
+            }
 
 
         })
         .fail(function (jqxhr, textStatus, err) {
             //console.log('Ajax error',textStatus);
         });
+    }
 }
 var vOneLS = localStorage.getItem("vOneLocalStorage ");
 
