@@ -19,8 +19,10 @@ function imagechange() {
 }
 console.log(idval);
 
-function what() {
+function display() {
     document.getElementById("namedisp").innerHTML = `@${name}`;
+    document.getElementById("follow").innerHTML=`<a href="#" class="icon solid fa-users followers">followers</a>
+    <a href="#" class="icon solid fa-users following">following</a>`;
 };
 var imageonload;
 var imageurl;
@@ -319,7 +321,7 @@ function editprofile() {
 
     //console.log("edit me");
 }
-what();
+display();
 
 
 var imgname;

@@ -67,7 +67,8 @@ class Login_registration {
             if (err) //console.log(err);
                 courses.password_hash = hash;
             connection.query(`INSERT INTO user set?`, [courses])
-            response.sendFile(path.join(__dirname + '/../views/login.html'));
+            //response.sendFile(path.join(__dirname + '/../views/login.html'));
+            response.redirect('/');
 
             //console.log(courses.password_hash);
 
