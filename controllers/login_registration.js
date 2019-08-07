@@ -41,7 +41,18 @@ class Login_registration {
             response.end();
         }
     }
+    followercount(request, response){
+        var user_handle = request.body.name;
+        console.log("it si "+request.body.name);
 
+        connection.query('SELECT count(*) FROM user_follower WHERE user_handle = ? ', [user_handle], function (error, results, fields) {
+            response.send(results);
+            
+
+        });
+
+
+    }
     postauth2(request, response) {
         var user_handle = request.body.user_handle;
         var password = request.body.password;
@@ -262,9 +273,33 @@ console.log("retweet class");
 follow(request, response){
     var follower_id = request.body.index;
     var namefollower = request.body.user_handle;
+    var unfollow = "unfollow";
     
     
-    connection.query('insert into user_follower (user_id,follower_id) values ((select user_id from user where user_handle = ?),? )',[namefollower,follower_id],function(err,data){
+    connection.query('insert into user_follower (user_id,follower_id, unfollow) values ((select user_id from user where user_handle = ?),? ,?)',[namefollower,follower_id,unfollow],function(err,data){
+
+   
+        if(err)
+        {throw err;}
+        else
+        {
+          //idname= data[0].user_id;
+          //  console.log(idname);
+        } 
+
+    });
+    
+
+
+}
+
+unfollow(request, response){
+    var follower_id = request.body.index;
+    var namefollower = request.body.user_handle;
+    var unfollow = "unfollow";
+    
+    
+    connection.query('delete from user_follower where follower_id=?',[follower_id],function(err,data){
 
    
         if(err)
@@ -285,14 +320,34 @@ follow(request, response){
         console.log("i m in class")
 
         var searchname = request.body.searchname;
-        console.log(searchname);
-        connection.query('select * from user where user_handle = ?  ', [searchname], function (err, data) {
-            response.send(data);
-            if(err)
-            {
-                response.send("error");
-            }
+        var name = request.body.name;
+        console.log("searchname"+searchname);
+        console.log("name"+name);
 
+        connection.query(` select * from user where user_handle = ? and not exists(select * from user_follower where user_id=(select user_id from user where user_handle =? ) and follower_id =(select user_id from user where user_handle=?))   `, [searchname, name,searchname], function (err, data) {
+            console.log("hi");
+
+            response.send(data);
+console.log("data"+JSON.stringify(data));
+               
+         
+
+        });
+    }
+
+    search_profileunfollow(request, response) {
+        console.log("i m in class")
+
+        var searchname = request.body.searchname;
+        var name = request.body.name;
+        console.log(name);
+        connection.query(` select * from user where user_handle = ? and exists(select * from user_follower where user_id=(select user_id from user where user_handle =? ) and follower_id =(select user_id from user where user_handle=?))   `, [searchname, name,searchname], function (err, data) {
+            console.log("hi");
+
+            response.send(data);
+console.log(data);
+               
+         
 
         });
     }

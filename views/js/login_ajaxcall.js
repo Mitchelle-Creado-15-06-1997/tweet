@@ -3,6 +3,12 @@ var formdata = {};
 var name;
 var idval;
 var txt;
+document.getElementById("dispsearch").style.visibility = "hidden";
+
+document.getElementById("dispsearch1").style.visibility = "hidden";
+
+document.getElementById("dispsearchHash").style.visibility = "hidden";
+
 function imagechange() {
     var x = document.getElementById("media");
     txt = "";
@@ -20,9 +26,32 @@ function imagechange() {
 console.log(idval);
 
 function display() {
+
     document.getElementById("namedisp").innerHTML = `@${name}`;
     document.getElementById("follow").innerHTML=`<a href="#" class="icon solid fa-users followers">followers</a>
     <a href="#" class="icon solid fa-users following">following</a>`;
+   var senddata={
+       name:name
+
+    }
+  //  console.log(senddata);
+    
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/followercount",
+        data: senddata,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+            console.log(data);
+           console.log("data is follow"+data);
+
+        })
+        .fail(function (jqxhr, textStatus, err) {
+           console.log('Ajax error',textStatus);
+        });
 };
 var imageonload;
 var imageurl;
@@ -238,7 +267,7 @@ function get() {
             // //console.log(datanew[0].Name);
             $('#getResponse').html(name);
             // window.location.href = `http://localhost:3000/home/${name}`;
-            window.location.href = `http://localhost:8000/home`;
+            window.location.href = `http://localhost:4000/home`;
 
 
             }
@@ -263,6 +292,7 @@ function clear_disp() {
     $('#searchname').val("");
     $('#dispsearch').html("");
     $('#dispsearchHash').html("");
+    $('#dispsearch1').html("");
 }
 
 
@@ -410,9 +440,11 @@ function searchglobal() {
     else {
         console.log(" i m in else")
         var send_search = {
-            searchname: $("#searchname").val()
+            searchname: $("#searchname").val(),
+            name:name
 
         }
+        console.log("it is send"+JSON.stringify( send_search));
         $.ajax({
             type: "POST",
 
@@ -426,32 +458,89 @@ function searchglobal() {
 
                 if (n === 0) {
                     console.log(n);
-                    $('#dispsearch').html("not found");
+                    $('#dispsearch').html("");
+                   // document.getElementById("dispsearch1").style.visibility = "hidden";
+
                 }
                 //console.log(data.length);
 
                 //console.log(typeof(data));
                 else {
+                    console.log("it is printed"+JSON.stringify(data));
                     $.each(data, function (index, value) {
-
+console.log("hihihi");
                         html += `
-                    
+                
 
                     <span class="name"><img src="${data[index].profile_image}" alt="" height="30" width="30px" />${data[index].Name}</span>
-                        <button class="button button4" onclick="follow(${data[index].user_id})">Follow</button>
+                        <button class="button button4" id="followerbutton" onclick="follow(${data[index].user_id})">Follow</button>
                 `;
                     });
-                    $('#dispsearch').html(html);
+                   document.getElementById("dispsearch1").style.visibility = "visible";
+                
+                    $('#dispsearch1').html(html);
+                   // document.getElementById("dispsearch").style.visibility = "hidden";
+
                 }
             })
             .fail(function (jqxhr, textStatus, err) {
-                console.log('Ajax error', textStatus);
+                
+                //console.log('Ajax error', textStatus);
             });
+            $.ajax({
+                type: "POST",
+    
+                url: window.location + "/searchprofileunfollow",
+                data: send_search,
+                datatype: 'json'
+    
+            })
+                .done(function (data) {
+                    var n = data.length;
+    
+                    if (n === 0) {
+                        console.log(n);
+                       $('#dispsearch').html("");
+                    }
+                    //console.log(data.length);
+    
+                    //console.log(typeof(data));
+                    else {
+                        $.each(data, function (index, value) {
+    
+                            html += `
+                        
+    
+                        <span class="name"><img src="${data[index].profile_image}" alt="" height="30" width="30px" />${data[index].Name}</span>
+                            <button class="button button4" id="followerbutton" onclick="unfollow(${data[index].user_id})">unFollow</button>
+                    `;
+                        });
+                   document.getElementById("dispsearch").style.visibility = "visible";
+
+                        $('#dispsearch').html(html);
+                        //document.getElementById("dispsearch1").style.visibility = "hidden";
+
+                    }
+                })
+                .fail(function (jqxhr, textStatus, err) {
+                    
+                    //console.log('Ajax error', textStatus);
+                });
 
     }
 
 }
+
+
+function searchglobalunfollow() {
+   
+
+}
+
+
+
 function follow(index){
+    console.log("sfhvajsf"+index);
     var user_handle = name;
    
     var index1 = {
@@ -475,6 +564,43 @@ function follow(index){
         .fail(function (jqxhr, textStatus, err) {
             console.log('Ajax error', textStatus);
         });
+        $('#searchname').val("");
+    $('#dispsearch').html("");
+    $('#dispsearchHash').html("");
+    $('#dispsearch1').html("");
+
+
+}
+
+function unfollow(index){
+    console.log("sfhvajsf"+index);
+    var user_handle = name;
+   
+    var index1 = {
+        user_handle:user_handle,
+        index: index
+
+    }
+    console.log(index);
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/unfollow",
+        data: index1,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+            console.log("done");
+            
+        })
+        .fail(function (jqxhr, textStatus, err) {
+            console.log('Ajax error', textStatus);
+        });
+        $('#searchname').val("");
+    $('#dispsearch').html("");
+    $('#dispsearchHash').html("");
+    $('#dispsearch1').html("");
 
 
 }
@@ -511,6 +637,8 @@ console.log(data[index].media);
                         
                 `;
                             });
+                   document.getElementById("dispsearchHash").style.visibility = "visible";
+
             $('#dispsearchHash').html(html);
             }
         })

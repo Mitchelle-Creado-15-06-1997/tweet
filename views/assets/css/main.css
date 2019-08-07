@@ -32,6 +32,15 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
+#dispsearch{
+	visibility: hidden;
+}
+#dispsearch1{
+	visibility: hidden;
+}
+#dispsearchHash{
+	visibility: hidden;
+}
 .followers{
 	float: left;
 }
