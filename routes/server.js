@@ -67,13 +67,18 @@ app.post('/home/editprofileget', vlass.editprofileget);
 app.post('/home/displaytweets', vlass.displaytweets);
 
 app.post('/home/retweet', vlass.retweet);
+app.post('/home/searchprofileunfollow', vlass.search_profileunfollow);
 app.post('/home/searchprofile', vlass.search_profile);
 
 app.post('/home/searchhashtag', vlass.search_hashtag);
 
 app.post('/home/follow', vlass.follow);
+app.post('/home/unfollow', vlass.unfollow);
+
+app.post('/home/followercount', vlass.followercount);
+
 app.post('/home/like', vlass.like);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 4000;
 app.listen(port,()=>console.log(`listening on port ${port}`));
 module.exports = app;
