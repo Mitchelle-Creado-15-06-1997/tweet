@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for macos10.14 (x86_64)
 --
--- Host: localhost    Database: twitter
+-- Host: localhost    Database: tweet
 -- ------------------------------------------------------
 -- Server version	8.0.16
 
@@ -47,4 +47,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-05 14:42:04
+-- Dump completed on 2019-08-08 11:14:06

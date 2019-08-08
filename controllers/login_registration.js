@@ -297,9 +297,9 @@ console.log("retweet class");
       }
     displaytweets(request, response) {
         var userhandle = request.body.userhandle;
-        connection.query('select * from tweets where userhandle = ?  order by updated_at desc', [userhandle], function (err, data) {
+        connection.query('select * from tweets where userhandle = ? ;select * from tweets t, retweet r where userhandle = ? and r.user_id = (select user_id from user where user_handle = ? ) and r.tweet_id = t.tweet_id order by updated_at;', [userhandle, userhandle, userhandle], function (err, data) {
             response.send(data);
-            console.log(data[0].updated_at);
+            //console.log(data[0].updated_at);
             if (err) {
                 response.send("error");
             }

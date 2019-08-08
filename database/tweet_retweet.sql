@@ -1,6 +1,6 @@
 -- MySQL dump 10.13  Distrib 8.0.16, for macos10.14 (x86_64)
 --
--- Host: localhost    Database: twitter
+-- Host: localhost    Database: tweet
 -- ------------------------------------------------------
 -- Server version	8.0.16
 
@@ -16,31 +16,31 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `user_follower`
+-- Table structure for table `retweet`
 --
 
-DROP TABLE IF EXISTS `user_follower`;
+DROP TABLE IF EXISTS `retweet`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
-CREATE TABLE `user_follower` (
-  `f_id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `retweet` (
+  `retweet_id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
-  `follower_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`f_id`),
+  `tweet_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`retweet_id`),
   KEY `user_id` (`user_id`),
-  KEY `follower_id` (`follower_id`),
-  CONSTRAINT `user_follower_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
-  CONSTRAINT `user_follower_ibfk_2` FOREIGN KEY (`follower_id`) REFERENCES `user` (`user_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `tweet_id` (`tweet_id`),
+  CONSTRAINT `retweet_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `user_follower`
+-- Dumping data for table `retweet`
 --
 
-LOCK TABLES `user_follower` WRITE;
-/*!40000 ALTER TABLE `user_follower` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_follower` ENABLE KEYS */;
+LOCK TABLES `retweet` WRITE;
+/*!40000 ALTER TABLE `retweet` DISABLE KEYS */;
+INSERT INTO `retweet` VALUES (1,NULL,NULL),(2,NULL,NULL),(3,NULL,NULL),(4,19,65),(5,19,65),(6,19,66),(7,19,66),(8,19,66),(9,1,64),(10,1,64),(11,19,66),(12,19,66),(13,19,68),(14,19,68),(15,19,68),(16,19,65),(17,19,68),(18,19,67),(19,19,65),(20,19,71),(21,19,72),(22,19,71),(23,19,72),(24,27,74),(25,27,74),(28,19,107),(29,19,107);
+/*!40000 ALTER TABLE `retweet` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-08-05 14:42:04
+-- Dump completed on 2019-08-08 11:14:07
