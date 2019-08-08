@@ -3,6 +3,17 @@ var formdata = {};
 var name;
 var idval;
 var txt;
+$(window).scroll(function() {
+    if($(window).scrollTop() > 0) {
+       
+    } else {
+       displaytweets();
+    }
+});
+// window.addEventListener('scroll', function() {
+//     displaytweets();
+//     //document.getElementById('showScroll').innerHTML = pageYOffset + 'px';
+//   });
 document.getElementById("dispsearch").style.visibility = "hidden";
 
 document.getElementById("dispsearch1").style.visibility = "hidden";
@@ -55,6 +66,8 @@ function display() {
 };
 var imageonload;
 var imageurl;
+
+
 function displaytweets(){
     var post_data={
         userhandle:name
@@ -72,8 +85,172 @@ function displaytweets(){
         var t = "";
         var tweet_time ="";
         $.each(data, function (index, value) {
+          //  likecountdisplay(data[index].tweet_id);
+            
+           // console.log("like no in displaytweets "+likeno1);
+           
+           glow(data[index].tweet_id);
+            t = data[index].updated_at;
+            tweet_time = t.toLocaleString('en-US',{timeZone : "Asia/Kolkata"});
+            console.log(data[index].media+ data[index].tweet_id);
+         // t =  data[index].updated_at.split("T");
+            html+=`
+            <article class="post">
+                <header>
+                    <div class="title">
+                        <h2><a href="single.html"></a></h2>
+                        ${data[index].post_text}
+                   <p></p>
+                    </div>
+                    <div class="meta">
+                        <time class="published" datetime="2015-11-01">${tweet_time}</time>
+                        <a href="#" class="author"><span class="name">${data[index].userhandle}</span><img src="images/avatar.jpg" alt="" /></a>
+                        </div>
+                </header>
+                <a href="single.html" class="image featured"></a>
+                <iframe src="${data[index].media}" height="400" style="width:100%"></iframe>
+                <p></p>
+                <footer>
+                <ul class="actions">
+                 <li><button class="button large" onclick="retweet(${data[index].tweet_id})">Retweet</button></li>
+                 <li><button class="button large" onmouseleave="displaytweets()" onclick="delete_tweet(${data[index].tweet_id})">Delete</button></li>
+
+            </ul>
+                    <ul class="stats">
+                        <li><a href="#"></a></li>
+                        <li><div id="error"></div></li>
+                        <li><div id="likeno" class="countno">${data[index].likecount}</div></li>
+                        <div id="error"></div>
+                    </ul>
+                </footer>
+            </article>`;
+   // console.log(data[index].tweet_id);
+         t = ""; 
+         tweet_time ="";
+        });
+     
+        $('#post').html(html);
+      
+       
+    })
+    .fail(function(jqxhr,textStatus,err){
+        console.log('Ajax error',textStatus);
+    });
+}
+function delete_tweet(tweet_id){
+    alert("Deleted");
+console.log("sajhsgfui"+ tweet_id);
+
+   var formdata ={
+    tweet_id:tweet_id
+    }
+    console.log(formdata);
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/delete_tweet",
+        data: formdata,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+           
+
+            console.log("success");
+        
+
+        })
+        .fail(function (jqxhr, textStatus, err) {
+            //console.log('Ajax error',textStatus);
+        });
 
 
+}
+// function likecountdisplay(tweet_id){
+//     var likeno;
+
+//     var senddata={
+//         tweet_id:tweet_id
+//     }
+//     $.ajax({
+//         type: "POST",
+
+//         url: window.location + "/likecountdisplay",
+//         data: senddata,
+//         datatype: 'json'
+
+//     })
+//         .done(function (data) {
+//            likeno = data.length;
+//            console.log("like no is "+likeno);
+// //likecountPost(tweet_id,likeno)
+
+//            //return likeno;
+
+
+//         })
+//         .fail(function (jqxhr, textStatus, err) {
+//            console.log('Ajax error',textStatus);
+//         });
+//       //  console.log("outside "+likeno);
+
+
+
+    
+// }
+// function likecountPost(tweet_id, likeno){
+    
+
+//     var senddata={
+//         tweet_id:tweet_id,
+//         likeno:likeno
+//     }
+//     $.ajax({
+//         type: "POST",
+
+//         url: window.location + "/likecountPost",
+//         data: senddata,
+//         datatype: 'json'
+
+//     })
+//         .done(function (data) {
+          
+//             display();
+
+//         })
+//         .fail(function (jqxhr, textStatus, err) {
+//            console.log('Ajax error',textStatus);
+//         });
+//       //  console.log("outside "+likeno);
+
+
+// }
+function bodyimage(){
+
+}
+
+function globaltweets(){
+    console.log(name);
+
+    var post_data={
+        userhandle:name
+    }
+    $.ajax({
+        type:"post",
+        url:window.location +"/globaltweets",
+        data : post_data,
+        
+        datatype:'json'
+
+    })
+    .done(function(data){
+        //console.log("done");
+        var html = "";
+        var t = "";
+        var tweet_time ="";
+        $.each(data, function (index, value) {
+
+            glow(data[index].tweet_id);
             t = data[index].updated_at;
             tweet_time = t.toLocaleString('en-US',{timeZone : "Asia/Kolkata"});
          // t =  data[index].updated_at.split("T");
@@ -99,8 +276,8 @@ function displaytweets(){
                     </ul>
                     <ul class="stats">
                         <li><a href="#"></a></li>
-                        <li><button class="icon solid fa-heart" style="color:red"  onclick="glow(${data[index].tweet_id})"></button></li>
-                        <li><button class="icon solid fa-comment">128</button></li>
+                        <li><div id="button"><?div></li>
+                        <li><button class="icon solid fa-comment">${likeno}128</button></li>
                     </ul>
                 </footer>
             </article>`;
@@ -117,16 +294,15 @@ function displaytweets(){
         console.log('Ajax error',textStatus);
     });
 }
-function bodyimage(){
-
-}
 function glow(tweet_id) {
+console.log("hihihi");
     var likecount=1;
-    alert("hi");
-    console.log("tweet_id is"+likecount);
+    //var name =name;
+   // alert("hi");
+   // console.log("tweet_id is"+likecount);
     senddata = {
         tweet_id:tweet_id,
-       likecount:likecount
+       name:name
     }
     console.log("formdata is"+JSON.stringify( senddata));
 
@@ -140,7 +316,49 @@ function glow(tweet_id) {
 
     })
         .done(function (data) {
+
+            console.log("data is in like"+data);
+            if (data.length ==0)
+       {
+        document.getElementById("error").innerHTML=` <div class="icon solid fa-heart" style="color:red"  onclick="likepost(${tweet_id})" onmouseleave="displaytweets()"></div>`;
+
+          
+       }
+       else{
+       // document.getElementById("error").innerHTML=`You have already liked this post`;
            
+       }
+        })
+        .fail(function (jqxhr, textStatus, err) {
+           console.log('Ajax error',textStatus);
+        });
+
+
+}
+
+function likepost(tweet_id) {
+    var likecount=1;
+    //var name =name;
+   // alert("");
+    console.log("tweet_id is"+likecount);
+    senddata = {
+        tweet_id:tweet_id,
+       name:name
+    }
+    console.log("formdata is"+JSON.stringify( senddata));
+
+    // //console.log(formdata.user_handle);
+    $.ajax({
+        type: "POST",
+
+        url: window.location + "/likepost",
+        data: senddata,
+        datatype: 'json'
+
+    })
+        .done(function (data) {
+
+           //likepost(tweet_id);
 
         })
         .fail(function (jqxhr, textStatus, err) {
@@ -675,7 +893,42 @@ console.log(post_data);
     })
     .done(function(data){
 
-       
+       if (data.length ==0)
+       {
+           retweetpost(index);
+       }
+      
+    })
+    .fail(function(jqxhr,textStatus,err){
+        console.log('Ajax error',textStatus);
+    });
+
+}
+
+function retweetpost(index){
+    console.log("retweet ajax");
+    var user_handle = name;
+    
+    console.log("tweet id is"+index);
+var post_data ={
+    //user_id:id,
+    user_handle,
+    tweet_id:index
+
+}
+console.log(post_data);
+
+    $.ajax({
+        type:"POST",
+        
+        url:window.location +"/retweetpost",
+        data : post_data,
+        datatype:'json'
+
+    })
+    .done(function(data){
+
+      
       
     })
     .fail(function(jqxhr,textStatus,err){

@@ -5,7 +5,8 @@ let connection=mysql.createConnection({
     password:'abc123',
     database: 'tweet',
     timezone:'utc',
-    dateStrings:true
+    dateStrings:true,
+    multipleStatements: true
 });
 
 connection.connect(function(err){

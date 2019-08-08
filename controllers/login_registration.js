@@ -217,7 +217,10 @@ console.log("retweet class");
      
          }
          var idname;
-          connection.query('insert into retweet (tweet_id,user_id) values (? ,(select user_id from user where user_handle = ?))',[tweet_id,user_handle],function(err,data){
+         connection.query('select * from retweet where tweet_id=? and user_id = (select user_id from user where user_handle =?)',[tweet_id,user_handle],function(err,data){
+            response.send(data);
+
+          //connection.query('insert into retweet (tweet_id,user_id) values (? ,(select user_id from user where user_handle = ?))',[tweet_id,user_handle],function(err,data){
               if(err)
               {throw err;}
               else
@@ -235,18 +238,103 @@ console.log("retweet class");
      
     
     }
+
+    retweetpost(request, response){
+        console.log("retweet insert class");
+                var tweet_id = request.body.tweet_id;
+               var user_handle= request.body.user_handle;
+                 const  tweet ={
+                     user_handle,
+                     tweet_id
+             
+                 }
+                 var idname;
+                // connection.query('select * from retweet where tweet_id=? and user_id = (select user_id from user where user_handle =?)',[tweet_id,user_handle],function(err,data){
+                   // response.send(data);
+        
+                  connection.query('insert into retweet (tweet_id,user_id) values (? ,(select user_id from user where user_handle = ?))',[tweet_id,user_handle],function(err,data){
+                      if(err)
+                      {throw err;}
+                      else
+                      {
+                        //idname= data[0].user_id;
+                        //  console.log(idname);
+                      } 
+            
+                  });
+             
+                // connection.query('Insert into retweet set ?',[tweet])
+                 //response.send("success");
+             
+             
+             
+            
+            }
     like(request, response){
-       var likecount = request.body.likecount;
+      // var likecount = request.body.likecount;
         var tweet_id = request.body.tweet_id;
-        connection.query('update tweets set likecount = likecount + likecount where tweet_id =?', [tweet_id])
+        var name =request.body.name;
+        console.log("tweet_id"+tweet_id);
+        console.log("name"+name);
 
+        connection.query('select * from like_post where user_id=(select user_id from user where user_handle =?) and tweet_id = ?',[name, tweet_id],function(err,data){
+            response.send(data);
+            console.log("data is like"+JSON.stringify(data));
+      //  connection.query('insert into like_post (user_id, tweet_id) values ((select user_id from user where user_handle = ?) ,? )',[name, tweet_id],function(err,data){
 
+        });
     }
+
+    likepost(request, response){
+        // var likecount = request.body.likecount;
+          var tweet_id = request.body.tweet_id;
+          var name =request.body.name;
+         // connection.query('select * from like where user_id=(select user_id from user where user_handle =?) and tweet_id = ?',[name, tweet_id],function(err,data){
+           //   response.send(data);
+         connection.query('insert into like_post (user_id, tweet_id) values ((select user_id from user where user_handle = ?) ,? ); update tweet.tweets set likecount=(select count(*) from tweet.like_post where tweet_id = ?) where tweet_id=? ',[name, tweet_id,tweet_id,tweet_id],function(err,data){
+            response.send(data);
+          });
+      }
     displaytweets(request, response) {
         var userhandle = request.body.userhandle;
         connection.query('select * from tweets where userhandle = ?  order by updated_at desc', [userhandle], function (err, data) {
             response.send(data);
             console.log(data[0].updated_at);
+            if (err) {
+                response.send("error");
+            }
+        });
+    }
+    // likecountPost(request, response){
+    //     var tweet_id = request.body.tweet_id;
+    //     var likeno = request.body.likeno;
+
+    //     connection.query('update tweets set likecount=? where tweet_id=? ', [likeno,tweet_id], function (err, data) {
+    //         //response.send(data);
+           
+    //     });
+
+
+    // }
+    // likecountdisplay(request, response){
+    //     console.log("function");
+    //     var tweet_id = request.body.tweet_id;
+    //     console.log(tweet_id);
+    //     connection.query('update tweet.tweets set likecount=(select count(*) from tweet.like_post where tweet_id = ?) where tweet_id=?   ', [tweet_id,tweet_id], function (err, data) {
+    //         response.send(data);
+           
+    //     });
+
+
+    // }
+    globaltweets(request, response) {
+        console.log("hi global tweet");
+        var userhandle = request.body.userhandle;
+        console.log("userhandle"+userhandle);
+        connection.query('select * from tweet where userhandle ="sonali" ', [userhandle, userhandle], function (err, data) {
+            response.send(data);
+            console.log(JSON.stringify(data));
+           // console.log(data[0].updated_at);
             if (err) {
                 response.send("error");
             }
@@ -277,7 +365,7 @@ follow(request, response){
     
     
     connection.query('insert into user_follower (user_id,follower_id, unfollow) values ((select user_id from user where user_handle = ?),? ,?)',[namefollower,follower_id,unfollow],function(err,data){
-
+        response.send(data);
    
         if(err)
         {throw err;}
@@ -312,6 +400,19 @@ unfollow(request, response){
 
     });
     
+
+
+}
+
+delete_tweet(request, response){
+        var tweet_id = request.body.tweet_id;
+console.log("delete"+ tweet_id);
+
+        connection.query('delete from tweets where tweet_id=?; delete from retweet where tweet_id=?',[tweet_id,tweet_id],function(err,data){
+
+            //response.send("hi"+JSON.stringify(data));
+        });
+        
 
 
 }
@@ -372,6 +473,7 @@ console.log(data);
         var media = request.body.media;
         // var media = request.body.media;
         var userhandle = request.body.userhandle;
+        //var likecount = '0';
         //console.log(userhandle);
         //console.log(post_text);
         //console.log("hiiiiii");
@@ -381,7 +483,8 @@ console.log(data);
             media,
 
             hashtag,
-            userhandle
+            userhandle,
+           // likecount
 
             // user_handle 
 

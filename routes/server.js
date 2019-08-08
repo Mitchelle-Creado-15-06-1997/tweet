@@ -66,7 +66,11 @@ app.post('/home/editprofileget', vlass.editprofileget);
 //app.post('/home/postimage', vlass.postimage);
 app.post('/home/displaytweets', vlass.displaytweets);
 
+app.post('/home/globaltweets', vlass.globaltweets);
+
 app.post('/home/retweet', vlass.retweet);
+app.post('/home/retweetpost', vlass.retweetpost);
+
 app.post('/home/searchprofileunfollow', vlass.search_profileunfollow);
 app.post('/home/searchprofile', vlass.search_profile);
 
@@ -78,6 +82,11 @@ app.post('/home/unfollow', vlass.unfollow);
 app.post('/home/followercount', vlass.followercount);
 
 app.post('/home/like', vlass.like);
+app.post('/home/likepost', vlass.likepost);
+app.post('/home/delete_tweet', vlass.delete_tweet);
+
+//app.post('/home/likecountdisplay', vlass.likecountdisplay);
+//app.post('/home/likecountPost', vlass.likecountPost);
 
 const port = process.env.PORT || 4000;
 app.listen(port,()=>console.log(`listening on port ${port}`));
